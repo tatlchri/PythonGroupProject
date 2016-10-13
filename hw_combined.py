@@ -37,7 +37,7 @@ def returns_Stocks(priceData):
     # output is a pd.dataframe of daily returns    
     returns = priceData.pct_change()
     # remove index 0 of returns - it's a nan value because the first period data has no daily return
-    returns = returns[1:len(returns)]
+    #returns = returns[1:len(returns)]
     # We had used the built-in function, the next function below is the manual calculation
     return returns
 
@@ -45,7 +45,7 @@ def returns_Stocks_manual_calc(priceData):
     # Manual calculation of the returns
     returns = priceData / priceData.shift(1) - 1
     # remove index 0 of returns - it's a nan value because the first period data has no daily return
-    returns = returns[1:len(returns)]
+    #returns = returns[1:len(returns)]
     return returns
 
 # make sure that the manual calculation is same as built-in function
@@ -206,12 +206,44 @@ def printCor(correlationTable, companyA, companyB):
     return nameA, nameB, corr
 
 ##### Compare panda method and python manual method of calculating correlations
-def testCor(correlationTable, companyA, companyB):
+def testCor_pairwise(correlationTable, companyA, companyB):
     print('Panda method:')
     print(correlationTable.loc[companyA,companyB])
     print('Standard data structure method')
-    a,b = np.array(returns.get(companyA).tolist(),dtype = float),np.array(returns.get(companyB).tolist(),dtype = float)
+    returns_for_manual = returns[1:len(returns)]
+    a,b = np.array(returns_for_manual.get(companyA).tolist(),dtype = float),np.array(returns_for_manual.get(companyB).tolist(),dtype = float)
     print(np.sum((a - np.mean(a))/np.std(a)*(b - np.mean(b))/np.std(b))/(len(a)))
+
+##### The above does a pairwise correlation manually
+#     This chunk of code computes all pairwise correlations manually
+def testCor_allprices(returns):
+    # copy returns dataframe to initialise corr_matrix. Will edit the cell contents in code below.
+    corr_matrix = returns.copy()
+    col_names = list(returns.columns.values)
+    # remove index 0 of returns - it's a nan value because the first period data has no daily return
+    returns = returns[1:len(returns)]
+    for i in range(len(col_names)):
+        for j in range(i, len(col_names)):
+            companyA = col_names[i]
+            companyB = col_names[j]
+            a,b = np.array(returns.get(companyA).tolist(),dtype = float),np.array(returns.get(companyB).tolist(),dtype = float)
+            corr_matrix.ix[companyA, companyB] = (np.sum((a - np.mean(a))/np.std(a)*(b - np.mean(b))/np.std(b))/(len(a)))
+            corr_matrix.ix[companyB, companyA] = (np.sum((a - np.mean(a))/np.std(a)*(b - np.mean(b))/np.std(b))/(len(a)))
+    return corr_matrix
+
+
+##### make sure that the manual calculation is same as built-in function
+def test_correlation_Stock_built_in_equals_manual(returns):  
+    corr_built_in = corTable(returns)
+    corr_manual = testCor_allprices(returns)
+    difference = corr_built_in - corr_manual 
+    print("The total difference between built-in and manual way of calculating correlations across stocks is:", difference.sum().sum()) 
+
+# To test if built-in and manual way of finding correlations are the same
+# Uncomment the lines below to test it. (have tested, values returned are the same. There is a very small difference 3.1778630833582955e-12, for the manual and built-in way of computing all correlations, likely due to rounding errors)
+#testCor_pairwise(correlationTable, 'GOOGL', 'FB')
+#test_correlation_Stock_built_in_equals_manual(returns)
+
     
 ##### List top correlated companies of a company   
 def topCor(correlationTable,company):
@@ -229,10 +261,6 @@ def topCor(correlationTable,company):
     print(min)
     print('Most +ve correlated:')
     print(max)
-
-# To test if built-in and manual way of finding correlations are the same
-# Uncomment the line below to test it. (have tested, values returned are the same)
-#testCor(correlationTable, 'GOOGL', 'FB')
 
 
 # UNCOMMENT THIS WHEN DONE WITH TESTING
@@ -380,7 +408,7 @@ def link_clusters(edge_list, node_names, k):
     return nodeList
     
 # test with k = 6
-nodeList = link_clusters(edge_list, all_stock_names, 6)
+nodeList = link_clusters(edge_list, all_stock_names, 99)
 
 # test result
 for i in range(n):
