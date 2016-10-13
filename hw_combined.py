@@ -299,8 +299,8 @@ def top_bottom_Cor(correlationTable,company):
 ##### Store all stock names into a list
 all_stock_names = list(correlationTable.columns.values)
 n = len(all_stock_names)
-print("length of correlationTable: ", n)
-print("length of namesDict: ", len(namesDict))
+#print("length of correlationTable: ", n)
+#print("length of namesDict: ", len(namesDict))
 # COMMENT: The length of namesDict and all_stock_names 
 #          DO NOT MATCH! all_stock_names is correct, 
 #          there are 496 stock names in the price csv file
@@ -315,6 +315,7 @@ for i in range(len(all_stock_names)-1):
     for j in range(i+1, len(all_stock_names)):
         # add tuple (weight, source, destination) to list
         edge_list.append( (correlationTable.loc[all_stock_names[i], all_stock_names[j]], i, j) )
+
 
 # sort them in descending order
 edge_list = sorted(edge_list, reverse = True)
@@ -375,6 +376,7 @@ def Union(x, y):
     if xRoot.getRank() < yRoot.getRank():
         xRoot.setParent(yRoot)
         xRoot.mergeSet(yRoot)
+        
     elif xRoot.getRank() > yRoot.getRank():
         yRoot.setParent(xRoot)
         yRoot.mergeSet(xRoot)
@@ -416,12 +418,25 @@ def link_clusters(edge_list, node_names, k):
         
     return nodeList
     
-# test with k = 6
-nodeList = link_clusters(edge_list, all_stock_names, 99)
+# test cluster algorithm
+k = 200
+nodeList = link_clusters(edge_list, all_stock_names, k)
 
 # test result
+# store clusters in a dictionary so that each look-up is O(1), and so over total of n iterations, the overall efficiency is O(n);
+#   whereas a list may take O(n), which will make this cluster finding process O(n^2)
+cluster_list = {}
 for i in range(n):
-    print("Node", nodeList[i], "is in same set as Node ", Find(nodeList[i]), ". Cluster of nodes are:", Find(nodeList[i]).getSet())
-    
+    # use the following line if you want to know a particular node's cluster
+    #print("Node", nodeList[i], "is in same set as Node ", Find(nodeList[i]), ". Cluster of nodes are:", Find(nodeList[i]).getSet())
+    cluster_found = str(Find(nodeList[i]).getSet())    
+    if (cluster_found not in cluster_list):
+        cluster_list[cluster_found] = 1
+        
+print("After", k, "iterations, we have these clusters:")
+cluster_num = 0
+for cluster in cluster_list:
+    cluster_num += 1
+    print("Cluster #", cluster_num, ": =", cluster)
 
 ##### END OF PART 4 part 1 #####
