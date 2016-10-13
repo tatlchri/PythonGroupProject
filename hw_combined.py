@@ -245,8 +245,10 @@ def test_correlation_Stock_built_in_equals_manual(returns):
 #test_correlation_Stock_built_in_equals_manual(returns)
 
     
-##### List top correlated companies of a company   
-def topCor(correlationTable,company):
+##### List top and bottom correlated companies of a company   
+def top_bottom_Cor(correlationTable,company):
+    print('Finding the top and bottom correlated companies for ', company, ':')
+    print('===================================================')
     min = correlationTable[company].sort_values()[0:5]
     max = correlationTable[company].sort_values(ascending=False)[1:6]
     list1 = []
@@ -257,18 +259,25 @@ def topCor(correlationTable,company):
         list2.append(compData.loc[i,'Name'])
     min.index = list1
     max.index = list2
-    print('Most -ve correlated:')
+    print('Bottom correlated :')
+    print('-----------------')
     print(min)
-    print('Most +ve correlated:')
+    print('') # break line
+    print('Top correlated:')
+    print('---------------')
     print(max)
 
 
 # UNCOMMENT THIS WHEN DONE WITH TESTING
-#topCor(correlationTable,'AAPL')
-#topCor(correlationTable,'AMZN')
-#topCor(correlationTable,'MSFT')
-#topCor(correlationTable,'FB')
-#topCor(correlationTable,'GOOGL')
+#top_bottom_Cor(correlationTable,'AAPL')
+#print("") # break line
+#top_bottom_Cor(correlationTable,'AMZN')
+#print("") # break line
+#top_bottom_Cor(correlationTable,'MSFT')
+#print("") # break line
+#top_bottom_Cor(correlationTable,'FB')
+#print("") # break line
+#top_bottom_Cor(correlationTable,'GOOGL')
 
 ##### END OF PART 2 #####
 
