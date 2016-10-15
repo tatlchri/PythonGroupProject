@@ -419,7 +419,7 @@ def link_clusters(edge_list, node_names, k):
     return nodeList
     
 # test cluster algorithm
-k = 200
+k = 300
 nodeList = link_clusters(edge_list, all_stock_names, k)
 
 # test result
