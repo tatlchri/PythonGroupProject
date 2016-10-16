@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Untitled1</title>
+<title>PythonGroupProject</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11767,6 +11767,8 @@ Team 3:</p>
 <li>Christina Lefkothea Tatli 01231953</li>
 <li>Yiu Fong Christopher Ying 00821967</li>
 </ul>
+<p><b><u> Introduction </u></b></p>
+<p>Our team have completed all core parts, part 1 to 3. We have also completed Extra part 1 on analysing the efficiency of the given clustering algorithm, coding a more efficient version of it, and discussing the efficiency of the improved algorithm. We have also completed Extra part 2 to include a discussion of various clustering algorithms, their pros and cons; as well as coding an application of Spectral Clustering, printing its results, and checking to see if the clusters made sense.</p>
 <p><b><u> Part 1 </u></b></p>
 <p><b>Stock returns</b></p>
 <p>i. Calculate the daily returns for all stocks in the data.</p>
@@ -12872,10 +12874,10 @@ Name: GOOGL, dtype: float64
 
 
 
-<div id="006e592d-ab32-462e-b757-b251bc2916dd"></div>
+<div id="449bf6e1-d87b-4106-add3-f0dfa5d45507"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#006e592d-ab32-462e-b757-b251bc2916dd');
+var element = $('#449bf6e1-d87b-4106-add3-f0dfa5d45507');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -13691,10 +13693,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="44603cf7-09e0-47bf-b804-c527c4d7af9e"></div>
+<div id="78d94ce6-24a8-4f3c-aea7-c9b4997b5567"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#44603cf7-09e0-47bf-b804-c527c4d7af9e');
+var element = $('#78d94ce6-24a8-4f3c-aea7-c9b4997b5567');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -15047,10 +15049,10 @@ Cluster: [&#39;LMT&#39;] : [&#39;Lockheed Martin Corp.&#39;]
 
 
 
-<div id="168e3be7-d5a4-42be-b423-4e2c4039ef76"></div>
+<div id="789ed9f4-5f8f-4ed8-ad61-7ed5a975284d"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#168e3be7-d5a4-42be-b423-4e2c4039ef76');
+var element = $('#789ed9f4-5f8f-4ed8-ad61-7ed5a975284d');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -15828,7 +15830,8 @@ if (IPython.notebook.kernel != null) {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>It is clear that as the k increases, the number of cluster decreases. For small numbers of k, the majority of nodes in the graph constitute a single cluster. It is also interesting to notice that the rate of decrease in the number of clusters is low, as the number of k increases. This can be explained by the fact, that the graph is dense and every node in a specific cluster is possibly linked with the majority of the other nodes in the cluster, because of high weight/correlation values. </li>
+<li>It is clear that as the k increases, the number of cluster decreases. For small numbers of k, the majority of nodes in the graph constitute a single cluster. It is also interesting to notice that the rate of decrease in the number of clusters is low, as the number of k increases. This can be explained by the fact, that the graph is dense and every node in a specific cluster is possibly linked with the majority of the other nodes in the cluster, because of high weight/correlation values.  </li>
+<li>In other words, as k increases, it is likely that the clustering algorithm will pick an edge that contains two nodes already belonging to the same cluster. Hence the union of these two nodes won't change the number of clusters since they already belong to the same cluster. Hence the rate of decrease in number of clusters is low as k increases.</li>
 </ul>
 
 </div>
@@ -15841,7 +15844,9 @@ if (IPython.notebook.kernel != null) {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>iii.  Do some detective work: what is the greedy algorithm called? In what other graph problem is it often used? How are the problems related?</p>
 <ul>
-<li><p>The greedy algorithm that was implemented above is called Kruskal's algorithm. Kruskal's algorithm, in general is an algorithm for finding minimum spanning trees, using a greedy approach. It approaches the problem, assuming that the graph is a forest and every node is an individual tree. Its tree is connected to another tree if and only if it had least cost among all available options. <sup>[1]</sup></p>
+<li><p>The greedy algorithm that was implemented above is called Kruskal's algorithm. Kruskal's algorithm, in general is an algorithm for finding minimum spanning trees, using a greedy approach. It approaches the problem, assuming that the graph is a forest and every node is an individual tree. Its tree is connected to another tree if and only if it had least cost among all available options. <sup>[1]</sup> A minimum spanning tree is a tree that connects all the nodes together, and the weights of the edges in the tree is the minimum weighted edges that would form a tree out of all the nodes.</p>
+</li>
+<li><p>However, there are some subtle differences between the Kruskal's algorithm and the one used for this assignment. Firstly, in Krustal's algorithm, the merger or union occurs only when the removed edge connects two different trees. If the removed edge contains nodes that already belong to the same cluster, then it simply skips the edge (no union performed) and move on to the next lowest weighted edge (side note: lowest in a minimum spanning tree case; Here, we are finding maximum correlations so it seeks the next highest weighted edge).  But in our case, we will union the two nodes regardless if they belong to a same or different cluster.  The second difference, is that in our case, the end result may not be a minimum spanning tree. i.e. by the end of k iterations, we may not necessarily form a single cluster with all n nodes in the same cluster.  Regardless of these differences, the greedy concept is similar.</p>
 </li>
 <li><p>In general, spanning trees algorithms, have applications in the design of networks, such as telecommunication, computer, transportation and electrical networks. For example, a telecommunication company that wants to connect a new neighborhood to its network, can use minimum spanning trees algorithms to minimize the total cost of the project. As the company is restricted to bury the cable only along certain paths, it can approach the problem as a graph, assuming that each path to a certain point is an edge of the graph. Its edge will have a different weight, depending on the length of the path or the difficulty of installation. A minimum spanning tree for that graph will be one that connects to every house in the neighborhood and has minimum cost. <sup>[2]</sup></p>
 </li>
@@ -16397,10 +16402,10 @@ Cluster: [&#39;LMT&#39;] : [&#39;Lockheed Martin Corp.&#39;]
 <li>'News Corp. Class B', 'News Corp. Class A'</li>
 <li>'Baker Hughes Inc', 'Halliburton Co.'</li>
 </ol>
-<h1 id="Interpreting-the-above-results">Interpreting the above results<a class="anchor-link" href="#Interpreting-the-above-results">&#182;</a></h1><p>'Equity Residential', 'UDR Inc', 'Essex Property Trust Inc', 'AvalonBay Communities, Inc.' are all real estate investment trust (REIT) companies in United States, so they would perform similarly in the same market conditions. Hence, it makes clear sense, why they are in the same cluster</p>
-<p>'CMS Energy', 'DTE Energy Co.', 'Xcel Energy Inc' are all major U.S. electricity and natural gas companies. As in the previous case, they would also perform similarly in the same market conditions</p>
-<p>'Huntington Bancshares', 'SunTrust Banks', 'PNC Financial Services', 'Wells Fargo', 'BB&amp;T Corporation' are all providers of banking, mortgage, investing, credit card, insurance, and consumer and commercial financial services</p>
-<p>It is clear that clusters make total sense, as the majority of them are constituted from businesses, operating in the same industry in similar markets. As a consequence, their stock performance would be correlated, which explains why the algorithm would merge them in a single cluster.</p>
+<h1 id="Interpreting-the-above-results">Interpreting the above results<a class="anchor-link" href="#Interpreting-the-above-results">&#182;</a></h1><p>'Equity Residential', 'UDR Inc', 'Essex Property Trust Inc', 'AvalonBay Communities, Inc.' are all real estate investment trust (REIT) companies in United States, so they would perform similarly in the same market conditions. Hence, it makes clear sense, why they are in the same cluster.</p>
+<p>'CMS Energy', 'DTE Energy Co.', 'Xcel Energy Inc' are all major U.S. electricity and natural gas companies. As in the previous case, they would also perform similarly in the same market conditions.</p>
+<p>'Huntington Bancshares', 'SunTrust Banks', 'PNC Financial Services', 'Wells Fargo', 'BB&amp;T Corporation' are all providers of banking, mortgage, investing, credit card, insurance, and consumer and commercial financial services.</p>
+<p>It is clear that clusters make total sense, as the majority of them are constituted from businesses, operating in the same industry in similar markets. As a consequence, since economic conditions would likely affect the same industry in a similar fashion, their stock performance would be correlated, which explains why the algorithm would merge them in a single cluster.</p>
 
 </div>
 </div>
@@ -16438,10 +16443,10 @@ Cluster: [&#39;LMT&#39;] : [&#39;Lockheed Martin Corp.&#39;]
 
 
 
-<div id="1db37fbf-c104-434d-a054-8cb43c4afd37"></div>
+<div id="7e883fa1-2b02-411a-9b06-ca78237448ea"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#1db37fbf-c104-434d-a054-8cb43c4afd37');
+var element = $('#7e883fa1-2b02-411a-9b06-ca78237448ea');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -17267,10 +17272,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="130389df-c95f-47cc-9671-11254d8e8651"></div>
+<div id="93e7f838-7592-49e9-8313-b4682bfbec39"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#130389df-c95f-47cc-9671-11254d8e8651');
+var element = $('#93e7f838-7592-49e9-8313-b4682bfbec39');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -18083,10 +18088,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="5baa54e6-f3bb-4c64-aec6-834041d7d3f6"></div>
+<div id="fff25ce5-d607-41f4-9a56-1e7d7cf44359"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#5baa54e6-f3bb-4c64-aec6-834041d7d3f6');
+var element = $('#fff25ce5-d607-41f4-9a56-1e7d7cf44359');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -18899,10 +18904,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="cec7ee67-854d-45bb-841d-ee350731dca4"></div>
+<div id="169671ae-a5ed-4274-9ed8-8e07ffbcfbb2"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#cec7ee67-854d-45bb-841d-ee350731dca4');
+var element = $('#169671ae-a5ed-4274-9ed8-8e07ffbcfbb2');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -19715,10 +19720,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="27a15dfe-ea67-4fb0-a07c-51fcf6fc8f6f"></div>
+<div id="b328c8fb-5125-478d-9e39-7d71ef170c08"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#27a15dfe-ea67-4fb0-a07c-51fcf6fc8f6f');
+var element = $('#b328c8fb-5125-478d-9e39-7d71ef170c08');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -20531,10 +20536,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="61849998-098c-4ccd-a914-4728f320184b"></div>
+<div id="5e43acfe-f8aa-40be-9c5d-308bb3609360"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#61849998-098c-4ccd-a914-4728f320184b');
+var element = $('#5e43acfe-f8aa-40be-9c5d-308bb3609360');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -21387,12 +21392,13 @@ if (IPython.notebook.kernel != null) {
 <li>In the original algorithm described in the assignment instructions, the time efficiency would be O(kn), because it performs k Union operations, and in each Union operation, the transversing of the chain via finding the root of the chain could be O(n) time (in the worst case, by arbitrarily linking trees, we could possibly land up with a long chain).  In the algorithm proposed, each transversal of the chain, the Find function, is O(log n), because we ensure that the tree is balanced. Hence each Union operation takes O(log n) time. So for k Union operations, it is O(k log n). Since k is at max the total number of edges, which is O(n^2) since the graph is dense, our algorithm is O(n^2 * log n) instead of O(n^3). Total number of edges = (n-1) + (n-2) + ... + 1 = O(n^2).</li>
 </ul>
 <ul>
-<li>But in fact, by using path compression and balanced trees, the amortized running time is actually O(k log* n) as explained by Chang, 2014<sup>[2]</sup>, which can also be shown that it has a tighter bound O(k α(n)) where α(n) is the inverse Ackermann function. α(n) is less than 5 for all remotely practical values of n. Thus, the amortized running time per operation is effectively a small constant, which means the overall amortized efficiency is approximately O(k). log* n is log log log ... log n, which is a very slow growing function.  The key reason for this is that with path compression, any calls to Find(x) or x's ancestors will return in constant time since x and its parents will all point to the root, after path compression. Chang's explanation uses the accounting method to explain amortized cost. He finds the upper bound of the cost of a first 'expensive' operation of Find(x), before path compression. The 'expensive' cost will help 'pay' for future operations of Find(x) after path compression. He then explains the tight upper bound of this cost and how many times this cost is incurred. The latter, on how many times cost is incurred, is dependent on the fact that trees are balanced. A tree of rank r+1 can only be achieved by linking two trees with roots of rank r. This then gives a max size of nodes that can ever achieve rank r, and this leads to the max number of expensive charges. In summary, the amortized cost of operations is thus lowered by using path compression and ensuring that trees are balanced.  </li>
+<li>But in fact, by using path compression and balanced trees, the amortized running time is actually O(k log* n) as explained by Chang, 2014<sup>[2]</sup>, which can also be shown that it has a tighter bound O(k α(n)) where α(n) is the inverse Ackermann function. α(n) is less than 5 for all remotely practical values of n. For example, α of a very large number, α(9876!), equals to 5, as shown by Gabriel Nivasch (2009)<sup>[3]</sup>. Thus, the amortized running time per operation is effectively a small constant, which means the overall amortized efficiency is approximately O(k). log* n is log log log ... log n, which is a very slow growing function.  The key reason for this is that with path compression, any calls to Find(x) or x's ancestors will return in constant time since x and its parents will all point to the root, after path compression. Chang's explanation uses the accounting method to explain amortized cost. He finds the upper bound of the cost of a first 'expensive' operation of Find(x), before path compression. The 'expensive' cost will help 'pay' for future operations of Find(x) after path compression. He then explains the tight upper bound of this cost and how many times this cost is incurred. The latter, on how many times cost is incurred, is dependent on the fact that trees are balanced. A tree of rank r+1 can only be achieved by linking two trees with roots of rank r. This then gives a max size of nodes that can ever achieve rank r, and this leads to the max number of expensive charges. In summary, the amortized cost of operations is thus lowered by using path compression and ensuring that trees are balanced.  </li>
 </ul>
 <hr>
 <p>References:</p>
 <p><sup>[1]</sup>: Cormen, Thomas H.; Leiserson, Charles E.; Rivest, Ronald L.; Stein, Clifford (2001), "Chapter 21: Data structures for Disjoint Sets", Introduction to Algorithms (Second ed.), MIT Press, pp. 498–524.</p>
 <p><sup>[2]</sup>: Chang, R. (2014) Design &amp; Analysis of Algorithms, Notes on Disjoint Set Union. [Lecture notes] University of Maryland Baltimore County. Available from: <a href="http://www.csee.umbc.edu/~chang/cs641.s08/dsu.pdf">http://www.csee.umbc.edu/~chang/cs641.s08/dsu.pdf</a> [Accessed: 13th October 2016].</p>
+<p><sup>[3]</sup>: Gabriel Nivasch (2009). Inverse Ackermann without pain. Available from: <a href="http://www.gabrielnivasch.org/fun/inverse-ackermann">http://www.gabrielnivasch.org/fun/inverse-ackermann</a>  [Accessed 16th October 2016]</p>
 
 </div>
 </div>
@@ -21549,7 +21555,7 @@ if (IPython.notebook.kernel != null) {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><b><u> Part 4.1 (Extra part 1) </u></b></p>
+<p><b><u> Part 4.2 (Extra part 2) </u></b></p>
 
 </div>
 </div>
@@ -21560,7 +21566,7 @@ if (IPython.notebook.kernel != null) {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><b>Exploring other clustering methods</b></p>
-<p>Clustering of stock price data belongs to the category of time series clustering. Time series clustering algorithms partition data into groups based on similarity or distance, so that time series in the same cluster are similar. [7] Unfortunately, the majority of well-known machine learning and data mining algorithms are unsuitable for time series data, because of their high dimensionality, high feature correlation and large amount of noise [<sup>[1]</sup>-<sup>[3]</sup>].</p>
+<p>Clustering of stock price data belongs to the category of time series clustering. Time series clustering algorithms partition data into groups based on similarity or distance, so that time series in the same cluster are similar <sup>[7]</sup>. Unfortunately, the majority of well-known machine learning and data mining algorithms are unsuitable for time series data, because of their high dimensionality, high feature correlation and large amount of noise <sup>[1],[2],[3]</sup>].</p>
 <p>The most well-known approaches used for time series clustering is hierarchical and partitioning algorithms. Hierarchical algorithms do not require prior knowledge of the number of clusters and they use a pairwise distance matrix to create a nested hierarchy of similar objects <sup>[4]</sup>. However, hierarchical algorithms are restricted to small datasets, as they don’t perform well with large quantities of data, because of their quadratic computational complexity <sup>[5]</sup>. Furthermore, partitioning algorithms like k-Means and k-Medoids algorithm are frequently used for time series data, even though they have a tendency to favor spherical clusters and the knowledge on the number of clusters is required in advance. Last but not least, model-based clustering approach creates a model for every cluster, determining the best data fir for that model. However, model based algorithms perform very slow and often lead to inaccurate clusters, due to parameters setting, which is based on user’s assumptions <sup>[6]</sup>.</p>
 <p>All the aforementioned approaches and algorithms require one basic step: ‘determine a suitable similarity/dissimilarity measure between two objects’ <sup>[8]</sup>, in order to partition time series into groups. Often similarity and dissimilarity is measured by comparing sequences of serial features of the original time series, like cross-correlations, autocorrelations, spectral features and wavelet coefficients. Some similarity measures include Euclidian distance, Pearson correlation, Dynamic Time Warping, short time series distance and many others.</p>
 <p>Another one clustering algorithm was implemented in Python, using the scikit-learn library.  It is named Spectral Clustering and belongs to partitioning algorithms category. It clusters data that are connected but not necessarily compact or clustered within convex boundaries. Two of its main drawbacks are that the number of clusters must be known in advance and it performs well for a small number of clusters. In order to run the algorithm, an affinity matrix should be defined, which determines how close, or similar, two points are in space. When A(i,j)=0 the stocks perform totally similarly, and when A(i,j)=0 , the stocks have a totally different performance. In order to create the affinity matrix, a heat kernel is applied to transform the entries of the matrix. The resulted clusters differ dramatically in size. Some of them contain more than 100 nodes/companies, when other are single clusters or clusters with 2 nodes. The results of Spectral Clustering on the stock price data, using 30 clusters, are illustrated below. It is clear that even if some clusters are not meaningful because of their large size, smaller clusters are constituted from companies, which perform similar regarding their returns in time.</p>
@@ -21657,18 +21663,21 @@ Cluster: [&#39;COG&#39;, &#39;EQT&#39;, &#39;RRC&#39;, &#39;SWN&#39;] : [&#39;Ca
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We see that the clusters arising from Spectral Clustering do make sense as well. 
+For example, the cluster:</p>
+<p>Cluster: ['BAC', 'BBT', 'SCHW', 'CMA', 'FITB', 'HBAN', 'KEY', 'MTB', 'PBCT', 'PNC', 'RF', 'STI', 'USB', 'WFC', 'ZION'] : ['Bank of America Corp', 'BB&amp;T Corporation', 'Charles Schwab Corporation', 'Comerica Inc.', 'Fifth Third Bancorp', 'Huntington Bancshares', 'KeyCorp', 'M&amp;T Bank Corp.', "People's United Financial", 'PNC Financial Services', 'Regions Financial Corp.', 'SunTrust Banks', 'U.S. Bancorp', 'Wells Fargo', 'Zions Bancorp']</p>
+<p>are mainly financial sector companies.</p>
+<p>And the cluster:</p>
+<p>Cluster: ['LNT', 'AEE', 'AEP', 'AWK', 'CMS', 'ED', 'D', 'DTE', 'DUK', 'EIX', 'ETR', 'ES', 'PCG', 'PNW', 'PPL', 'PEG', 'SCG', 'SRE', 'SO', 'WEC', 'XEL'] : ['Alliant Energy Corp', 'Ameren Corp', 'American Electric Power', 'American Water Works Company Inc', 'CMS Energy', 'Consolidated Edison', 'Dominion Resources', 'DTE Energy Co.', 'Duke Energy', "Edison Int'l", 'Entergy Corp.', 'Eversource Energy', 'PG&amp;E Corp.', 'Pinnacle West Capital', 'PPL Corp.', 'Public Serv. Enterprise Inc.', 'SCANA Corp', 'Sempra Energy', 'Southern Co.', 'Wisconsin Energy Corporation', 'Xcel Energy Inc']</p>
+<p>are mainly energy companies.</p>
 
 </div>
 </div>
-</div>
-
 </div>
     </div>
   </div>
