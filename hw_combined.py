@@ -320,20 +320,27 @@ for i in range(len(all_stock_names)-1):
 # sort them in descending order
 edge_list = sorted(edge_list, reverse = True)
 
+
+
 ##### Create a node class with:
 #       node_name: prints the stock's name
 #       parent: nodes with the same parent will belong to the same cluster
 #       rank: depth of the node. Use this for efficient merging - tries to keep tree as balanced as possible - shorter search time
+
+
 #       setlist: stores the names of all the nodes that belong to the same cluster. Updates this when sets are merged 
 #                (the root of the tree at any time will always store the complete set of nodes belonging to the same cluster)
 
 class Node():
     def __init__(self, node_name):
         self.name = node_name
-        # maintain a list that stores all the nodes
-        # in the same cluster. Update this list when
-        # clusters merge (i.e. update the root node list)
-        self.setlist = [node_name];
+        # maintain dual pointers
+        # children contains list of node's children
+        #   This is to facilitate printing of entire cluster later. Find the root node, and print all its children as belonging to same cluster
+        # parent is node's parent
+        #   This is to facilitate finding the root of the tree and merging of trees
+        self.children = [];
+        self.parent = None
     
     def setParent(self, node):
         self.parent = node
@@ -341,6 +348,12 @@ class Node():
     def getParent(self):
         return self.parent
         
+    def setChildren(self, node):
+        self.children.append(node)
+        
+    def getChildren(self):
+        return self.children
+
     def setRank(self, rank):
         self.rank = rank
 
@@ -350,10 +363,10 @@ class Node():
     def getSet(self):
         return self.setlist
         
-    def mergeSet(self, node):
-        # update the root node list whenever there is a merge operation. Root of the tree will have the complete set list
-        node.getSet().extend(self.setlist)
-
+    # this function is to facilitate checking if node is root node (node's parent is itself)
+    def equals(self, node):
+        return (self.name == node.name)
+        
     def __str__(self):
         return self.name
     
@@ -375,14 +388,13 @@ def Union(x, y):
     # to minimise the tree height
     if xRoot.getRank() < yRoot.getRank():
         xRoot.setParent(yRoot)
-        xRoot.mergeSet(yRoot)
-        
+        yRoot.setChildren(xRoot)        
     elif xRoot.getRank() > yRoot.getRank():
         yRoot.setParent(xRoot)
-        yRoot.mergeSet(xRoot)
+        xRoot.setChildren(yRoot)
     else:
         yRoot.setParent(xRoot)
-        yRoot.mergeSet(xRoot)
+        xRoot.setChildren(yRoot)
         xRoot.setRank(xRoot.getRank() + 1)
         
 def Find(x):
@@ -413,30 +425,43 @@ def link_clusters(edge_list, node_names, k):
         # Negative correlated nodes should be nearer to the end of the list (i.e. stocks that are dissimiliar to each other, in opposite direction)
         # Negative weights should not affect the algorithm correctness
         weight, source, dest = edge_list[i]
-        print(weight, source, dest) # for debugging purposes
+        #print(weight, source, dest) # for debugging purposes
         Union(nodeList[source], nodeList[dest])
         
     return nodeList
     
 # test cluster algorithm
-k = 300
+k = 20
+if (k > len(edge_list)):
+    k = len(edge_list)
+    
 nodeList = link_clusters(edge_list, all_stock_names, k)
 
-# test result
-# store clusters in a dictionary so that each look-up is O(1), and so over total of n iterations, the overall efficiency is O(n);
-#   whereas a list may take O(n), which will make this cluster finding process O(n^2)
-cluster_list = {}
-for i in range(n):
+# prints result
+
+# O(n) time to go through all nodes and 
+# store root nodes into a list
+root_nodes_list = []
+for node in nodeList:
     # use the following line if you want to know a particular node's cluster
     #print("Node", nodeList[i], "is in same set as Node ", Find(nodeList[i]), ". Cluster of nodes are:", Find(nodeList[i]).getSet())
-    cluster_found = str(Find(nodeList[i]).getSet())    
-    if (cluster_found not in cluster_list):
-        cluster_list[cluster_found] = 1
+    if node.getParent().equals(node):
+        root_nodes_list.append(node)
+
         
 print("After", k, "iterations, we have these clusters:")
 cluster_num = 0
-for cluster in cluster_list:
+# for each root node
+#  use a Breadth First Search to go through all its children. All its children belong to the same cluster
+for root_node in root_nodes_list:
     cluster_num += 1
+    cluster = []
+    queue = [root_node]
+    while (len(queue) > 0):
+        curr_node = queue.pop(0)
+        cluster.append(str(curr_node))
+        queue.extend(curr_node.getChildren())
+        
     print("Cluster #", cluster_num, ": =", cluster)
 
 ##### END OF PART 4 part 1 #####
